@@ -18,47 +18,53 @@
 #include <cstring>.
 using namespace std;
 
+// Создайте программу, имитирующую многоквартирный дом.Необходимо иметь классы “Человек”, “Квартира”, “Дом”.
+// Класс “Квартира” содержит динамический массив объектов класса “Человек”.Класс “Дом” содержит массив объектов класса “Квартира”.
+// Каждый из классов содержит переменные - члены и функции - члены, которые необходимы для предметной области класса.
+// Обращаем ваше внимание, что память под строковые значения выделяется динамически.Например, для ФИО в классе “Человек”.
+// Не забывайте обеспечить классы различными конструкторами(конструктор копирования обязателен), деструкторами.
+// В main протестировать работу полученного набора классов.
 
-
-
-// Не понимаю, почему такое большое количество ошибок и как их исправить,
-// думала, что логически должно было работать, но никак
-
-class House : public Apartment
+class Person
 {
-protected:
-	int num_apartment, num_floors;                // кол-во квартир и кол-во этажей
 public:
-	Apartment* apartment;
 
-	void inputHouse()
+	char* firstname, * lastname;              //имяфамилия
+	int l;
+	Person()
 	{
-		cout << "Количество квартир: ";
-		cin >> num_apartment;
-		cout << "Количество этажей: ";
-		cin >> num_floors;
-
-		apartment = new Apartment[num_apartment];         // массив Apartment
-		for (int i = 0; i < num_apartment; i++)
-		{
-			apartment->inputApartment();                     // инициализация квартир
-		}
+		firstname = new char[l + 1];
+		lastname = new char[l + 1];
 	}
 
-	void showHouse()
+	Person(const Person& p)
 	{
-		cout << "Количество квартир: " << num_apartment << endl;
-		cout << "Количество этажей: " << num_floors << endl;
-		showApartment();
+		char* firstname = new char;
+		firstname = p.firstname;
+
+		char* lastname = new char;
+		lastname = p.lastname;
+	}
+	~Person()
+	{
+		delete firstname;
+		delete lastname;
 	}
 
-	House() {}
-
-	House(const House& h)
+	void inputPerson()
 	{
-		num_apartment = h.num_apartment;
-		num_floors = h.num_floors;
+		cout << "Имя: ";
+		cin >> firstname;
+		cout << "Фамилия: ";
+		cin >> lastname;
 	}
+
+	void showPerson()
+	{
+		cout << "Фамилия: " << lastname << endl;
+		cout << "Имя: " << firstname << endl;
+	}
+
 };
 
 class Apartment : public Person
@@ -109,46 +115,41 @@ public:
 	
 };
 
-class Person
+class House : public Apartment
 {
+protected:
+	int num_apartment, num_floors;                // кол-во квартир и кол-во этажей
 public:
+	Apartment* apartment;
 
-	char* firstname, *lastname;              //имяфамилия
-	int l;
-	Person()
+	void inputHouse()
 	{
-		firstname = new char[l + 1];
-		lastname = new char[l + 1];
+		cout << "Количество квартир: ";
+		cin >> num_apartment;
+		cout << "Количество этажей: ";
+		cin >> num_floors;
+
+		apartment = new Apartment[num_apartment];         // массив Apartment
+		for (int i = 0; i < num_apartment; i++)
+		{
+			apartment->inputApartment();                     // инициализация квартир
+		}
 	}
 
-	Person(const Person& p)
+	void showHouse()
 	{
-		char* firstname = new char;
-		firstname = p.firstname;
-
-		char* lastname = new char;
-		lastname = p.lastname;
-	}
-	~Person() 
-	{
-		delete firstname;
-		delete lastname;
+		cout << "Количество квартир: " << num_apartment << endl;
+		cout << "Количество этажей: " << num_floors << endl;
+		showApartment();
 	}
 
-	void inputPerson()
-	{
-		cout << "Имя: ";
-		cin >> firstname;
-		cout << "Фамилия: ";
-		cin >> lastname;
-	}
+	House() {}
 
-	void showPerson()
+	House(const House& h)
 	{
-		cout << "Фамилия: " << lastname << endl;
-		cout << "Имя: " << firstname << endl;
+		num_apartment = h.num_apartment;
+		num_floors = h.num_floors;
 	}
-
 };
 
 int main()
